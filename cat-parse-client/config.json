@@ -1,0 +1,163 @@
+{
+  "220-volt": {
+    "name": "220-volt",
+    "url": "https://220-volt.ru",
+    "classname": "box-inline"
+  },
+  "agrupp": {
+    "name": "agrupp",
+    "url": "https://agrupp.com"
+  },
+  "autoopt": {
+    "name": "autoopt",
+    "url": "https://autoopt.ru"
+  },
+  "autopiter": {
+    "name": "autopiter",
+    "url": "https://autopiter.ru"
+  },
+  "castorama": {
+    "name": "castorama",
+    "url": "https://castorama.ru"
+  },
+  "citilink": {
+    "name": "citilink",
+    "url": "https://citilink.ru"
+  },
+  "defo": {
+    "name": "defo",
+    "url": "https://defo.ru"
+  },
+  "dns-shop": {
+    "name": "dns-shop",
+    "url": "https://dns-shop.ru"
+  },
+  "emex": {
+    "name": "emex",
+    "url": "https://emex.ru"
+  },
+  "etm": {
+    "name": "etm",
+    "url": "https://etm.ru"
+  },
+  "etpgpb": {
+    "name": "etpgpb",
+    "url": "https://etpgpb.ru"
+  },
+  "evraz.market": {
+    "name": "evraz.market",
+    "url": "https://evraz.market"
+  },
+  "exist": {
+    "name": "exist",
+    "url": "https://exist.ru"
+  },
+  "garwin": {
+    "name": "garwin",
+    "url": "https://garwin.ru"
+  },
+  "inten2011": {
+    "name": "inten2011",
+    "url": "https://inten2011.ru"
+  },
+  "komus": {
+    "name": "komus",
+    "url": "https://komus.ru"
+  },
+  "kscom": {
+    "name": "kscom",
+    "url": "https://kscom.ru"
+  },
+  "kuvalda": {
+    "name": "kuvalda",
+    "url": "https://kuvalda.ru"
+  },
+  "kuzalians": {
+    "name": "kuzalians",
+    "url": "https://kuzalians.ru"
+  },
+  "leroymerlin": {
+    "name": "leroymerlin",
+    "url": "https://leroymerlin.ru"
+  },
+  "metro-cc": {
+    "name": "metro-cc",
+    "url": "https://metro-cc.ru"
+  },
+  "mvideo": {
+    "name": "mvideo",
+    "url": "https://mvideo.ru"
+  },
+  "obi": {
+    "name": "obi",
+    "url": "https://obi.ru"
+  },
+  "office-planet": {
+    "name": "office-planet",
+    "url": "https://office-planet.ru"
+  },
+  "officemag": {
+    "name": "officemag",
+    "url": "https://officemag.ru"
+  },
+  "pervomaster": {
+    "name": "pervomaster",
+    "url": "https://pervomaster.ru"
+  },
+  "prosto-tools": {
+    "name": "prosto-tools",
+    "url": "https://prosto.tools"
+  },
+  "rs24": {
+    "name": "rs24",
+    "url": "https://rs24.ru"
+  },
+  "rubilnik": {
+    "name": "rubilnik",
+    "url": "https://rubilnik.ru"
+  },
+  "santech": {
+    "name": "santech",
+    "url": "https://santech.ru"
+  },
+  "sdvor": {
+    "name": "sdvor",
+    "url": "https://sdvor.com"
+  },
+  "sima-land": {
+    "name": "sima-land",
+    "url": "https://sima-land.ru"
+  },
+  "sk42": {
+    "name": "sk42",
+    "url": "https://sk42.ru"
+  },
+  "softline": {
+    "name": "softline",
+    "url": "https://store.softline.ru"
+  },
+  "tesli": {
+    "name": "tesli",
+    "url": "https://tesli.com"
+  },
+  "tinko": {
+    "name": "tinko",
+    "url": "https://tinko.ru"
+  },
+  "unitex": {
+    "name": "unitex",
+    "url": "https://unitex.ru"
+  },
+  "uzli": {
+    "name": "uzli",
+    "url": "https://uzli.info"
+  },
+  "vseinstrumeni": {
+    "name": "vseinstrumeni",
+    "url": "https://vseinstrumenti.ru"
+  },
+  "yandex-market": {
+    "name": "yandex-market",
+    "url": "https://market.yandex.ru"
+  }
+}
