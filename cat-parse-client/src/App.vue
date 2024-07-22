@@ -89,8 +89,8 @@ import config from '../config.json'
 const scrapeUrl = ref('')
 const scrapeClassname = ref('')
 const scrapeQuery = ref('')
-const websiteName = ref('')
 const inputClassname = ref('')
+const websiteName = ref('')
 const response = ref(null)
 const toggleLoading = ref(false)
 const pictureShown = ref(false)
@@ -99,7 +99,6 @@ const websitesOverlayShown = ref(false)
 
 async function scrapeCatalog() {
   toggleLoading.value = true
-  console.log('inputClassname', inputClassname.value)
   try {
     response.value = await axios.get('http://localhost:3000/scrape', {
       params: {
@@ -113,7 +112,7 @@ async function scrapeCatalog() {
     console.log('данные получены :', response.value.data.result[0])
     toggleLoading.value = false
   } catch (error) {
-    console.error('Error scrapping data :', error)
+    console.log('ошибка пришедшяя с бэкенда :', error)
     toggleLoading.value = false
   }
 }

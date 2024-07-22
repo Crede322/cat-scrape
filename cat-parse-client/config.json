@@ -11,7 +11,9 @@
   },
   "autoopt": {
     "name": "autoopt",
-    "url": "https://autoopt.ru"
+    "url": "https://autoopt.ru",
+    "classname": "n-catalog-item",
+    "inputClassname": "header-search__input"
   },
   "autopiter": {
     "name": "autopiter",
