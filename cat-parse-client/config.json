@@ -3,11 +3,13 @@
     "name": "220-volt",
     "url": "https://220-volt.ru",
     "classname": "box-inline",
-    "inputClassname": "header-search-input"
+    "inputClassname": "header-search"
   },
   "agrupp": {
     "name": "agrupp",
-    "url": "https://agrupp.com"
+    "url": "https://ag.market",
+    "classname": "product-table__product",
+    "inputClassname": "h-search__input"
   },
   "autoopt": {
     "name": "autoopt",

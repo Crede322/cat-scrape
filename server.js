@@ -10,20 +10,28 @@ app.use(express.static(path.join(__dirname, 'cat-parse-client', 'dist')));
 app.get('/scrape', async (req, res) => {
     let browser;
     try {
-        browser = await puppeteer.launch();
+        // browser = await puppeteer.launch();
+        browser = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null, // Установка полного размера окна
+            args: ['--start-maximized'] // Максимизация окна при запуске
+        });
         const page = await browser.newPage();
         
         const receivedClassname = req.query.scrapeClassname;
         const receivedInputClassname = req.query.inputClassname;
         const scrapeQuery = req.query.scrapeQuery;
-
-        await page.goto(req.query.scrapeUrl, { waitUntil: 'networkidle2' });
-
+        
+        await page.goto(req.query.scrapeUrl, { waitUntil: 'load' });
+        
         await page.setViewport({ width: 1800, height: 1080 });
-
+        
         await page.waitForSelector(`.${receivedInputClassname}`);
+
+        await page.click(`.${receivedInputClassname}`);
         await page.type(`.${receivedInputClassname}`, scrapeQuery);
         await page.keyboard.press('Enter');
+
         await page.waitForSelector(`.${receivedClassname}`);
 
         const result = await page.evaluate((receivedClassname) => {
@@ -41,8 +49,8 @@ app.get('/scrape', async (req, res) => {
             return elementsData
         }, receivedClassname);
 
-        const screenshotBuffer = await page.screenshot({ encoding: 'base64' });
-        await page.screenshot({ path: 'screenshot.png' });
+        const screenshotBuffer = await page.screenshot( { encoding: 'base64' } );
+        await page.screenshot( { path: 'screenshot.png' } );
         console.log("Result of scraping is", result);
         
         res.send(result ? { result, screenshot: screenshotBuffer } : {screenshot: screenshotBuffer});
