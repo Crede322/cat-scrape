@@ -37,11 +37,21 @@
           <h4>.</h4>
           <input
             type="text"
-            id="scrapeClassName"
-            v-model="scrapeClassName"
+            id="scrapeClassname"
+            v-model="scrapeClassname"
             required
             autocomplete="off"
             placeholder="classname"
+          />
+        </div>
+        <div :class="style.input__wrapper">
+          <input
+            type="text"
+            id="scrapeQuery"
+            v-model="scrapeQuery"
+            required
+            autocomplete="off"
+            placeholder="Поисковой запрос на сайте"
           />
         </div>
         <button type="submit" :class="style.button__submit">Scrape</button>
@@ -61,7 +71,7 @@
   <div v-if="websitesOverlayShown" :class="style.overlay">
     <div :class="style.overlay__buttons_wrapper">
       <div :class="style.overlay__buttons_container">
-        <button @click="buttonWebsiteClick(siteName)" v-for="(siteName, key) in config" :key="key">
+        <button @click="buttonWebsiteClick(sitename)" v-for="(sitename, key) in config" :key="key">
           {{ key }}
         </button>
       </div>
@@ -77,8 +87,10 @@ import { ref } from 'vue'
 import config from '../config.json'
 
 const scrapeUrl = ref('')
-const scrapeClassName = ref('')
+const scrapeClassname = ref('')
+const scrapeQuery = ref('')
 const websiteName = ref('')
+const inputClassname = ref('')
 const response = ref(null)
 const toggleLoading = ref(false)
 const pictureShown = ref(false)
@@ -86,14 +98,15 @@ const botScreenshotSrc = ref(null)
 const websitesOverlayShown = ref(false)
 
 async function scrapeCatalog() {
-  console.log(scrapeUrl.value)
-  console.log(scrapeClassName.value)
   toggleLoading.value = true
+  console.log('inputClassname', inputClassname.value)
   try {
     response.value = await axios.get('http://localhost:3000/scrape', {
       params: {
         scrapeUrl: scrapeUrl.value,
-        scrapeClassName: scrapeClassName.value
+        scrapeClassname: scrapeClassname.value,
+        scrapeQuery: scrapeQuery.value,
+        inputClassname: inputClassname.value
       }
     })
     botScreenshotSrc.value = 'data:image/png;base64,' + response.value.data.screenshot
@@ -113,12 +126,12 @@ function showToggleOverlay() {
   websitesOverlayShown.value = true
 }
 
-function buttonWebsiteClick(siteName) {
+function buttonWebsiteClick(sitename) {
   websitesOverlayShown.value = false
-  scrapeUrl.value = siteName.url
-  scrapeClassName.value = siteName.classname
-  websiteName.value = siteName.name
-  console.log(siteName.url)
+  websiteName.value = sitename.name
+  scrapeUrl.value = sitename.url
+  scrapeClassname.value = sitename.classname
+  inputClassname.value = sitename.inputClassname
 }
 </script>
 

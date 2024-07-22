@@ -2,7 +2,8 @@
   "220-volt": {
     "name": "220-volt",
     "url": "https://220-volt.ru",
-    "classname": "box-inline"
+    "classname": "box-inline",
+    "inputClassname": "header-search-input"
   },
   "agrupp": {
     "name": "agrupp",
