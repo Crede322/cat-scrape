@@ -15,7 +15,7 @@ app.get('/scrape', async (req, res) => {
             args: ['--start-maximized']
         });
         
-        // запрос и класснеймы с карточкой товара, поисковой строки
+        // класснеймы с карточкой товара, поисковой строки и запросом
         const receivedClassname = req.query.scrapeClassname;
         const receivedInputClassname = req.query.inputClassname;
         const scrapeQuery = req.query.scrapeQuery;
@@ -41,45 +41,31 @@ app.get('/scrape', async (req, res) => {
 
         await page.waitForSelector(`.${receivedClassname}`);
 
-        try {
-            const pages = [];
-            const togglePages = 0;
+        const result = await page.evaluate((receivedClassname, productName, productCost, productId) => {
+            const foundElements = document.querySelectorAll(`.${receivedClassname}`);
+            const separatedElements = Array.from(foundElements).map(element => {
+                const product = []
+                const elementName = element.querySelector(`.${productName}`)
+                const elementCost = element.querySelector(`.${productCost}`)
+                const elementId = element.querySelector(`.${productId}`)
+                if (elementName) {
+                    product.push(elementName.innerText.trim())
+                }
+                if (elementCost) {
+                    product.push(elementCost.innerText.trim())
+                }
+                if (elementId) {
+                    product.push(elementId.innerText.trim())
+                }
 
-            const attempt = async () => {
-                const result = await page.evaluate((receivedClassname, productName, productCost, productId) => {
-                    const foundElements = document.querySelectorAll(`.${receivedClassname}`);
-                    const separatedElements = Array.from(foundElements).map(element => {
-                        const product = []
-                        const elementName = element.querySelector(`.${productName}`)
-                        const elementCost = element.querySelector(`.${productCost}`)
-                        const elementId = element.querySelector(`.${productId}`)
-                        if (elementName) {
-                            product.push(elementName.innerText.trim())
-                        }
-                        if (elementCost) {
-                            product.push(elementCost.innerText.trim())
-                        }
-                        if (elementId) {
-                            product.push(elementId.innerText.trim())
-                        }
-                        return product.length > 0 ? product : null;
-                    }).filter(product => product !== null);
-                    return separatedElements
-                }, receivedClassname, productName, productCost, productId);
-                
-                togglePages += 1;
-                pages.push(togglePages);
-                console.log(result);
-            }
+                return product.length > 0 ? product : null;
+            }).filter(product => product !== null);
+            return separatedElements
+        }, receivedClassname, productName, productCost, productId);
 
-        } catch {
-
-        } finally {
-                
-        }
-
+        console.log(result);
     }
-    
+
     catch (error) {
         console.error("Ошибка со стороны бэкенда: ", error);
         res.status(500).send("Error scraping the website");
