@@ -96,6 +96,7 @@ const toggleLoading = ref(false)
 const pictureShown = ref(false)
 const botScreenshotSrc = ref(null)
 const websitesOverlayShown = ref(false)
+const props = ref([])
 
 async function scrapeCatalog() {
   toggleLoading.value = true
@@ -105,7 +106,8 @@ async function scrapeCatalog() {
         scrapeUrl: scrapeUrl.value,
         scrapeClassname: scrapeClassname.value,
         scrapeQuery: scrapeQuery.value,
-        inputClassname: inputClassname.value
+        inputClassname: inputClassname.value,
+        props: props.value
       }
     })
     botScreenshotSrc.value = 'data:image/png;base64,' + response.value.data.screenshot
@@ -126,11 +128,15 @@ function showToggleOverlay() {
 }
 
 function buttonWebsiteClick(sitename) {
+  //оверлей
   websitesOverlayShown.value = false
-  websiteName.value = sitename.name
+
+  //данные попадающие в бэк
   scrapeUrl.value = sitename.url
   scrapeClassname.value = sitename.classname
   inputClassname.value = sitename.inputClassname
+  props.value = sitename.props
+  websiteName.value = sitename.name
 }
 </script>
 

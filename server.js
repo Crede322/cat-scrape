@@ -10,18 +10,25 @@ app.use(express.static(path.join(__dirname, 'cat-parse-client', 'dist')));
 app.get('/scrape', async (req, res) => {
     let browser;
     try {
-        // browser = await puppeteer.launch();
-        browser = await puppeteer.launch({
+        browser = await puppeteer.launch({  // запуск браузера
             headless: false,
-            defaultViewport: null, // Установка полного размера окна
-            args: ['--start-maximized'] // Максимизация окна при запуске
+            args: ['--start-maximized']
         });
-        const page = await browser.newPage();
         
+        // запрос и класснеймы с карточкой товара, поисковой строки
         const receivedClassname = req.query.scrapeClassname;
         const receivedInputClassname = req.query.inputClassname;
         const scrapeQuery = req.query.scrapeQuery;
         
+        // класснеймы с именем, ценой и id
+        const props = req.query.props;
+        const productName = props[0]
+        const productCost = props[1]
+        const productId = props[2]
+        
+        // ниже имитация действий в браузере
+        const page = await browser.newPage();
+
         await page.goto(req.query.scrapeUrl, { waitUntil: 'load' });
         
         await page.setViewport({ width: 1800, height: 1080 });
@@ -34,32 +41,54 @@ app.get('/scrape', async (req, res) => {
 
         await page.waitForSelector(`.${receivedClassname}`);
 
-        const result = await page.evaluate((receivedClassname) => {
-            const elements = document.querySelectorAll(`.${receivedClassname}`);
-            const elementsData = Array.from(elements).map(element => {
-                const innerTextWithClassnames = Array.from(element.childNodes).map(node => {
-                    if (node.nodeType === node.TEXT_NODE) {
-                        return { text: node.textContent.trim(), classname: element.className };
-                    } else {
-                        return { text: node.innerText, classname: node.className};
-                    }
-                })
-                return innerTextWithClassnames;
-            })
-            return elementsData
-        }, receivedClassname);
+        try {
+            const pages = [];
+            const togglePages = 0;
 
-        const screenshotBuffer = await page.screenshot( { encoding: 'base64' } );
-        await page.screenshot( { path: 'screenshot.png' } );
-        console.log("Result of scraping is", result);
-        
-        res.send(result ? { result, screenshot: screenshotBuffer } : {screenshot: screenshotBuffer});
-        await browser.close();
+            const attempt = async () => {
+                const result = await page.evaluate((receivedClassname, productName, productCost, productId) => {
+                    const foundElements = document.querySelectorAll(`.${receivedClassname}`);
+                    const separatedElements = Array.from(foundElements).map(element => {
+                        const product = []
+                        const elementName = element.querySelector(`.${productName}`)
+                        const elementCost = element.querySelector(`.${productCost}`)
+                        const elementId = element.querySelector(`.${productId}`)
+                        if (elementName) {
+                            product.push(elementName.innerText.trim())
+                        }
+                        if (elementCost) {
+                            product.push(elementCost.innerText.trim())
+                        }
+                        if (elementId) {
+                            product.push(elementId.innerText.trim())
+                        }
+                        return product.length > 0 ? product : null;
+                    }).filter(product => product !== null);
+                    return separatedElements
+                }, receivedClassname, productName, productCost, productId);
+                
+                togglePages += 1;
+                pages.push(togglePages);
+                console.log(result);
+            }
+
+        } catch {
+
+        } finally {
+                
+        }
+
     }
+    
     catch (error) {
         console.error("Ошибка со стороны бэкенда: ", error);
         res.status(500).send("Error scraping the website");
     }
+
+    finally {
+        browser.close();
+    }
+
 });
 
 app.get('*', (req, res) => {

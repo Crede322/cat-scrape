@@ -3,7 +3,8 @@
     "name": "220-volt",
     "url": "https://220-volt.ru",
     "classname": "box-inline",
-    "inputClassname": "header-search"
+    "inputClassname": "header-search",
+    "nameAndCost": [".ecommerce-tracked-product-link", ".new-item-list-price-im"]
   },
   "agrupp": {
     "name": "agrupp",
@@ -15,7 +16,8 @@
     "name": "autoopt",
     "url": "https://autoopt.ru",
     "classname": "n-catalog-item",
-    "inputClassname": "header-search__input"
+    "inputClassname": "header-search__input",
+    "props": ["n-catalog-item__name-link", "n-catalog-item__price-box", "n-catalog-item__code-box"]
   },
   "autopiter": {
     "name": "autopiter",
