@@ -19,7 +19,9 @@ app.get('/scrape', async (req, res) => {
         const receivedClassname = req.query.scrapeClassname;
         const receivedInputClassname = req.query.inputClassname;
         const scrapeQuery = req.query.scrapeQuery;
-        
+        const paginationNumber = req.query.paginationNumber;
+        const classButtonNext = req.query.classButtonNext;
+
         // класснеймы с именем, ценой и id
         const props = req.query.props;
         const productName = props[0]
@@ -41,29 +43,36 @@ app.get('/scrape', async (req, res) => {
 
         await page.waitForSelector(`.${receivedClassname}`);
 
-        const result = await page.evaluate((receivedClassname, productName, productCost, productId) => {
-            const foundElements = document.querySelectorAll(`.${receivedClassname}`);
-            const separatedElements = Array.from(foundElements).map(element => {
-                const product = []
-                const elementName = element.querySelector(`.${productName}`)
-                const elementCost = element.querySelector(`.${productCost}`)
-                const elementId = element.querySelector(`.${productId}`)
-                if (elementName) {
-                    product.push(elementName.innerText.trim())
-                }
-                if (elementCost) {
-                    product.push(elementCost.innerText.trim())
-                }
-                if (elementId) {
-                    product.push(elementId.innerText.trim())
-                }
+        let togglePaginationAttempt = 0
+        while (togglePaginationAttempt < paginationNumber) {
+            togglePaginationAttempt += 1;
+            console.log(`результаты ${togglePaginationAttempt} страницы :`);
+            const result = await page.evaluate((receivedClassname, productName, productCost, productId) => {
+                const foundElements = document.querySelectorAll(`.${receivedClassname}`);
+                const separatedElements = Array.from(foundElements).map(element => {
+                    const product = []
+                    const elementName = element.querySelector(`.${productName}`)
+                    const elementCost = element.querySelector(`.${productCost}`)
+                    const elementId = element.querySelector(`.${productId}`)
+                    if (elementName) {
+                        product.push(elementName.innerText.trim())
+                    }
+                    if (elementCost) {
+                        product.push(elementCost.innerText.trim())
+                    }
+                    if (elementId) {
+                        product.push(elementId.innerText.trim())
+                    }
 
-                return product.length > 0 ? product : null;
-            }).filter(product => product !== null);
-            return separatedElements
-        }, receivedClassname, productName, productCost, productId);
-
-        console.log(result);
+                    return product.length > 0 ? product : null;
+                }).filter(product => product !== null);
+                return separatedElements
+            }, receivedClassname, productName, productCost, productId);
+            console.log(result, togglePaginationAttempt, ` страница прочитана, найдено товаров : ${result.length}`);
+            await page.waitForSelector(`.${classButtonNext}`);
+            await page.click(`.${classButtonNext}`);
+            await page.waitForSelector(`.${receivedClassname}`);
+        }
     }
 
     catch (error) {

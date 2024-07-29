@@ -54,6 +54,32 @@
             placeholder="Поисковой запрос на сайте"
           />
         </div>
+        <div :class="style.input__box_number">
+          <button
+            @click="decrementNumber"
+            :class="[style.number__button_arrow, style.arrow_left]"
+            type="button"
+          >
+            <img src="./assets//arrow.svg" alt="arrow" />
+          </button>
+          <div :class="[style.input__wrapper, style.input_number]">
+            <input
+              type="text"
+              id="pagesNumberInput"
+              v-model="pagesNumber"
+              required
+              autocomplete="off"
+              placeholder=""
+            />
+          </div>
+          <button
+            @click="incrementNumber"
+            :class="[style.number__button_arrow, style.arrow_right]"
+            type="button"
+          >
+            <img src="./assets//arrow.svg" alt="arrow" />
+          </button>
+        </div>
         <button type="submit" :class="style.button__submit">Scrape</button>
       </div>
     </form>
@@ -89,7 +115,9 @@ import config from '../config.json'
 const scrapeUrl = ref('')
 const scrapeClassname = ref('')
 const scrapeQuery = ref('')
+const pagesNumber = ref(1)
 const inputClassname = ref('')
+const classButtonNext = ref('')
 const websiteName = ref('')
 const response = ref(null)
 const toggleLoading = ref(false)
@@ -107,7 +135,9 @@ async function scrapeCatalog() {
         scrapeClassname: scrapeClassname.value,
         scrapeQuery: scrapeQuery.value,
         inputClassname: inputClassname.value,
-        props: props.value
+        props: props.value,
+        paginationNumber: pagesNumber.value,
+        classButtonNext: classButtonNext.value
       }
     })
     botScreenshotSrc.value = 'data:image/png;base64,' + response.value.data.screenshot
@@ -117,6 +147,16 @@ async function scrapeCatalog() {
     console.log('ошибка пришедшяя с бэкенда :', error)
     toggleLoading.value = false
   }
+}
+
+function decrementNumber() {
+  if (pagesNumber.value > 1) {
+    pagesNumber.value -= 1
+  }
+}
+
+function incrementNumber() {
+  pagesNumber.value += 1
 }
 
 function setTogglePicture() {
@@ -137,6 +177,7 @@ function buttonWebsiteClick(sitename) {
   inputClassname.value = sitename.inputClassname
   props.value = sitename.props
   websiteName.value = sitename.name
+  classButtonNext.value = sitename.classButtonNext
 }
 </script>
 

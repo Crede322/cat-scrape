@@ -25,6 +25,36 @@ h1 {
   display: block;
 }
 
+.input_number input {
+  max-width: 4vw;
+}
+
+.input__box_number {
+  width: 18vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 35px;
+}
+
+.number__button_arrow {
+  width: 3.5vw;
+  height: 3.5vw;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.number__button_arrow img {
+  transform: rotate(-45deg);
+  border-radius: 50%;
+}
+
+.arrow_right img {
+  transform: rotate(135deg);
+}
+
 .bot__screenshot {
   height: 35vw;
   border-radius: 8px;
@@ -100,6 +130,11 @@ h4 {
   padding-left: 10px;
   background-color: #353a4e;
   overflow: hidden;
+}
+
+.input_number {
+  max-width: 5vw;
+  margin-top: 4px;
 }
 
 .input__wrapper:after {
