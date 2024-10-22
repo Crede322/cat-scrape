@@ -3,7 +3,7 @@
 
 
 ## стек :
-node js
+node
 express
 puppeteer
 
