@@ -7,5 +7,7 @@ node js
 express
 puppeteer
 
-vue
 vite
+vue
+axios
+pinia
